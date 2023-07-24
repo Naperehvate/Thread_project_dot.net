@@ -48,7 +48,7 @@ namespace Thread_project
             {
                 if (number % i == 0 || number % (i + 2) == 0) return false;
             }
-
+            //uhuygfyuoiguigu
             return true;
         }
     }
