@@ -29,6 +29,7 @@ namespace Thread_project
             }
             else
             {
+                TextBox_Result.Text = string.Empty;
                 min = Convert.ToInt32(TextBox_Min.Text);
                 max = Convert.ToInt32(TextBox_Max.Text);
                 cancellationTokenSource = new CancellationTokenSource();
@@ -48,6 +49,7 @@ namespace Thread_project
             }
             else
             {
+                TextBox_Result_Fibo.Text = string.Empty;
                 min = Convert.ToInt32(TextBox_Min.Text);
                 max = Convert.ToInt32(TextBox_Max.Text);
                 cancellationTokenSource = new CancellationTokenSource();
@@ -77,15 +79,16 @@ namespace Thread_project
         {
             int a = 0;
             int b = 1;
+            int c = 0;
 
-            while (!cancellationToken.IsCancellationRequested && a <= max)
+            while (!cancellationToken.IsCancellationRequested && b <= max)
             {
-                int c = a + b;
+                c = a + b;
                 a = b;
                 b = c;
                 this.Dispatcher.Invoke(() =>
                 {
-                    TextBox_Result_Fibo.Text += " " + a.ToString();
+                    TextBox_Result_Fibo.Text += " " + c.ToString();
                 });
 
                 Thread.Sleep(200);

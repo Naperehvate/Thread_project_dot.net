@@ -8,11 +8,13 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TextBox x:Name="TextBox_Result" HorizontalAlignment="Left" Margin="10,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344" Height="183"/>
-        <TextBox x:Name="TextBox_Min" HorizontalAlignment="Left" Margin="182,10,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="TextBox_Max" HorizontalAlignment="Left" Margin="182,33,0,0" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TextBox_Min" HorizontalAlignment="Left" Margin="182,14,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TextBox_Max" HorizontalAlignment="Left" Margin="182,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="20" Height="18" ForceCursor="True"/>
         <Button x:Name="But_Start" Content="Старт" HorizontalAlignment="Left" Margin="10,348,0,0" VerticalAlignment="Top" Height="27" Width="90" Click="Button_Click" RenderTransformOrigin="-0.1,0.927"/>
         <TextBox x:Name="TextBox_Result_Fibo" HorizontalAlignment="Left" Margin="446,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344" Height="183"/>
         <Button x:Name="But_Start_Fibo" Content="Старт" HorizontalAlignment="Left" Margin="446,348,0,0" VerticalAlignment="Top" Height="27" Width="90" Click="Button_Click_Fibo" RenderTransformOrigin="-0.1,0.927"/>
+        <Label Content="Нижняя граница" HorizontalAlignment="Left" Margin="36,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="Верхняя граница" HorizontalAlignment="Left" Margin="36,49,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
