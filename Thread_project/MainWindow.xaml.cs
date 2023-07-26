@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualBasic;
-using System;
+﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Thread_project
@@ -9,76 +9,88 @@ namespace Thread_project
     {
         private int min;
         private int max;
-        private Thread? _thread;
-        private Thread? _thread_fibo;
+        private CancellationTokenSource cancellationTokenSource;
+        private CancellationToken cancellationToken;
+
         public MainWindow()
         {
             InitializeComponent();
+            cancellationTokenSource = new CancellationTokenSource();
+            cancellationToken = cancellationTokenSource.Token;
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             if (But_Start.Content.ToString() == "Стоп")
             {
-                if(_thread!=null && _thread.IsAlive)
-                {
-                    _thread.Abort();
-                }
+                cancellationTokenSource.Cancel();
                 But_Start.Content = "Старт";
             }
-            min = Convert.ToInt32(TextBox_Min.Text);
-            max = Convert.ToInt32(TextBox_Max.Text);
-            _thread = new Thread(GeneratedNumber);
-            _thread.Start();
-            But_Start.Content = "Стоп";
+            else
+            {
+                TextBox_Result.Text = string.Empty;
+                min = Convert.ToInt32(TextBox_Min.Text);
+                max = Convert.ToInt32(TextBox_Max.Text);
+                cancellationTokenSource = new CancellationTokenSource();
+                cancellationToken = cancellationTokenSource.Token;
+                But_Start.Content = "Стоп";
+
+                await Task.Run(() => GeneratedNumber(cancellationToken));
+            }
         }
 
-        private void Button_Click_Fibo(object sender, RoutedEventArgs e)
+        private async void Button_Click_Fibo(object sender, RoutedEventArgs e)
         {
             if (But_Start_Fibo.Content.ToString() == "Стоп")
             {
-                if (_thread_fibo != null && _thread_fibo.IsAlive)
-                {
-                    _thread_fibo.Abort();
-                    But_Start_Fibo.Content = "Старт";
-                }
+                cancellationTokenSource.Cancel();
+                But_Start_Fibo.Content = "Старт";
             }
-            _thread_fibo = new Thread(GeneratedFibonachi);
-            _thread_fibo.Start();
+            else
+            {
+                TextBox_Result_Fibo.Text = string.Empty;
+                min = Convert.ToInt32(TextBox_Min.Text);
+                max = Convert.ToInt32(TextBox_Max.Text);
+                cancellationTokenSource = new CancellationTokenSource();
+                cancellationToken = cancellationTokenSource.Token;
+                But_Start_Fibo.Content = "Стоп";
+
+                await Task.Run(() => GeneratedFibonachi(cancellationToken));
+            }
         }
 
-        private void GeneratedNumber()
+        private void GeneratedNumber(CancellationToken cancellationToken)
         {
             for (int i = min; i <= max; i++)
             {
-                if (IsPrime(i))
+                if (IsPrime(i) && !cancellationToken.IsCancellationRequested)
                 {
                     this.Dispatcher.Invoke(() =>
                     {
-                        
                         TextBox_Result.Text += " " + i.ToString();
                     });
                     Thread.Sleep(200);
                 }
-
             }
         }
 
-        private void GeneratedFibonachi()
+        private void GeneratedFibonachi(CancellationToken cancellationToken)
         {
             int a = 0;
             int b = 1;
-
-            while (true)
+            int c = 0;
+            //
+            while (!cancellationToken.IsCancellationRequested && b <= max)
             {
-                int c = a + b;
+                c = a + b;
                 a = b;
                 b = c;
                 this.Dispatcher.Invoke(() =>
                 {
-                    TextBox_Result_Fibo.Text += " " + a.ToString();
+                    TextBox_Result_Fibo.Text += " " + c.ToString();
                 });
-                
+
                 Thread.Sleep(200);
             }
         }
@@ -94,9 +106,8 @@ namespace Thread_project
             {
                 if (number % i == 0 || number % (i + 2) == 0) return false;
             }
-            
+
             return true;
         }
     }
-
 }
